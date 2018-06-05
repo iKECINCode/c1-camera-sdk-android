@@ -15,5 +15,5 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
+-keep class com.Petwant.** {*;}
+-keep class com.decoder.** {*;}

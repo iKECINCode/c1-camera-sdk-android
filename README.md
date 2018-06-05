@@ -1,6 +1,6 @@
-[![](https://jitpack.io/v/yikuo123/ApkManager.svg)](https://jitpack.io/#yikuo123/ApkManager)
+[![](https://jitpack.io/v/yikuo123/c1-camera-sdk-android.svg)](https://jitpack.io/#yikuo123/c1-camera-sdk-android)
 
-# JitPack 打包模板
+# C1 Camera Android SDK
 
 https://jitpack.io
 
