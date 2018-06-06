@@ -17,3 +17,4 @@
 #}
 -keep class com.Petwant.** {*;}
 -keep class com.decoder.** {*;}
+-keep class com.nursinghome.monitor.** {*;}
