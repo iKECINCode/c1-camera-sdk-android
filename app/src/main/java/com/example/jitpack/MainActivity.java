@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String UID = "SBZL55UAVH6X68Z3111A";
+    private static String UID = "";
     private static final String ACCOUNT = "admin";
     private static final String PASSWORD = "888888";
     public static final String TAG = "camera";
@@ -86,23 +86,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonConnect.setOnClickListener(this);
         buttonDisconnect.setOnClickListener(this);
 
-        int size = AudioTrack.getMinBufferSize(44100,
-                AudioFormat.CHANNEL_OUT_MONO,
-                AudioFormat.ENCODING_PCM_16BIT);
-        mAudioTrack = new AudioTrack(AudioManager.MODE_IN_COMMUNICATION, // 指定在流的类型
-                44100, AudioFormat.CHANNEL_OUT_MONO,// 设置输出声道为双声道立体声
+        mAudioTrack = new AudioTrack(
+                AudioManager.STREAM_MUSIC, // 指定在流的类型
+                8000, AudioFormat.CHANNEL_OUT_MONO,// 设置输出声道为双声道立体声
                 AudioFormat.ENCODING_PCM_16BIT,// 设置音频数据块是8位还是16位
-                size, AudioTrack.MODE_STREAM);
+                AudioTrack.getMinBufferSize(8000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT),
+                AudioTrack.MODE_STREAM
+        );
 
-        size = AudioRecord
-                .getMinBufferSize(44100, AudioFormat.CHANNEL_IN_MONO,
-                        AudioFormat.ENCODING_PCM_16BIT);
         mAudioRecord = new AudioRecord(
-                MediaRecorder.AudioSource.VOICE_COMMUNICATION, // 指定在流的类型
+                MediaRecorder.AudioSource.MIC, // 指定在流的类型
                 8000, AudioFormat.CHANNEL_IN_MONO,// 设置输出声道为双声道立体声
                 AudioFormat.ENCODING_PCM_16BIT,// 设置音频数据块是8位还是16位
-                size);
-
+                AudioRecord.getMinBufferSize(8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
+        );
 
 //        if (AcousticEchoCanceler.isAvailable()) {
 //            canceler = AcousticEchoCanceler.create(mAudioRecord.getAudioSessionId());
@@ -142,9 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        UID = getIntent().getStringExtra("uid");
 
         mCamera = new Camera(UID);
-        //mCamera = new Camera("F5YA9H5MK1ZCBG6GUHRJ");
         mCamera.registerListener(listener);
 
         mHandler = new MyHandler(this, mCamera);

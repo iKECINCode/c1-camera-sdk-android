@@ -32,8 +32,11 @@ public class LanSearch extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(mSimpleAdapter);
-
-        findViewById(R.id.btnDemo).setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("uid", mListData.get(position).get("uid"));
+            startActivity(intent);
+        });
     }
 
     @Override
