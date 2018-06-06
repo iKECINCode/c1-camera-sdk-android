@@ -1,6 +1,7 @@
 package com.example.jitpack;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -12,8 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonStartSendAudio = findViewById(R.id.button_startSendAudio);
         Button buttonStopSendAudio = findViewById(R.id.button_stopSendAudio);
         Button buttonTakeJpeg = findViewById(R.id.button_takeJpeg);
+        TextureView textureView = findViewById(R.id.textureView);
 
         buttonTakeJpeg.setOnClickListener(this);
         buttonStartSendAudio.setOnClickListener(this);
@@ -110,31 +112,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         videoDecodec = new glVideoDecodec();
 
-        final SurfaceView surfaceView = findViewById(R.id.surfaceView);
-
-        SurfaceHolder surfaceHolder = surfaceView.getHolder();
-
-        // mSurfaceHolder.getSurface();
-        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                Log.d(MainActivity.TAG, "surfaceDestroyed ...");
-
-                videoDecodec.videoDecodecStop();
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+                Surface surface1 = new Surface(surface);
+                videoDecodec.videoDecodecStart(surface1);
             }
 
             @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                Log.d(MainActivity.TAG, "surfaceCreated ...");
-
-
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+                Surface surface1 = new Surface(surface);
+                videoDecodec.videoDecodecStart(surface1);
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format,
-                                       int width, int height) {
-                Log.d(MainActivity.TAG, "surfaceChanged ...");
-                videoDecodec.videoDecodecStart(holder.getSurface());
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                if (videoDecodec!=null){
+                    videoDecodec.videoDecodecStop();
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
             }
         });
@@ -245,10 +246,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                                    "video data lenght: " + data.length + " pts: " + pts + " key: " + keyframe);
 //                          for (int i = 0; i < 6; ++i)
 //                              Log.d(MainActivity.TAG, "data[" + i + "] = 0x" + Integer.toHexString(data[i]));
-                        if (!isRunning.get() && keyframe == 1) {
+                        if (!isRunning.get() && keyframe == 1 &&videoDecodec!=null) {
                             videoDecodec.videoDecodec(data, pts);
                             isRunning.set(true);
-                        } else if (isRunning.get())
+                        } else if (isRunning.get() &&videoDecodec!=null)
                             videoDecodec.videoDecodec(data, pts);
                     });
                     Log.d(MainActivity.TAG, "start recv video ret: " + ret);
