@@ -11,10 +11,10 @@
 #### WiFi无密码
 
 
-`SSID=wifi,PWD=,TYPE=0`
+`SSID=ssid,PWD=,TYPE=0`
 
 #### WiFi有密码
 
-`SSID=wifi,PWD=password,TYPE=1`
+`SSID=ssid,PWD=password,TYPE=1`
 
 
