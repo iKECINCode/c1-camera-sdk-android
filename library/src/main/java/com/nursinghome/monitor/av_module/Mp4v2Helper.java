@@ -5,7 +5,7 @@ package com.nursinghome.monitor.av_module;
  */
 public class Mp4v2Helper {
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("native-c1");
     }
     public static native void init(String mp4FilePath);
 
