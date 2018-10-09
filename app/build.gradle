@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.3"
+    compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.jitpack"
+        applicationId "com.ikecin.demo"
         minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
@@ -15,8 +14,21 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            zipAlignEnabled false
         }
     }
     compileOptions {
@@ -26,6 +38,13 @@ android {
     flavorDimensions "default"
 }
 
+try {
+    apply from: 'signing.gradle'
+    println "从 signing.gradle 中读取签名配置"
+} catch (ignored) {
+    println "signing.gradle 不存在,已忽略并使用默认签名配置"
+}
+
 repositories {
     flatDir {
         dirs 'libs'
@@ -33,8 +52,8 @@ repositories {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation project(':library')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

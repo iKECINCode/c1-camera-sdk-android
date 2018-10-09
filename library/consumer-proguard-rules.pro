@@ -15,20 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn javax.annotation.**
 
-# region lib需要避免公共和保护方法被混淆
--optimizations !code/allocation/variable
--keep public class * {
-    public protected *;
+# 避免jni方法被混淆
+-keepclasseswithmembernames class * {
+    native <methods>;
 }
-# endregion
 
-# 避免异常名称被混淆
--keepnames class * extends java.lang.Throwable
 
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
-
--dontwarn org.apache.**
--dontwarn android.**
--dontwarn java.lang.invoke.**
+-keep class com.Petwant.** {*;}
+-keep class com.decoder.** {*;}
+-keep class com.nursinghome.monitor.** {*;}

@@ -1,6 +1,32 @@
+# C1 Camera Android SDK
+
 [![](https://jitpack.io/v/iKECINCode/c1-camera-sdk-android.svg)](https://jitpack.io/#iKECINCode/c1-camera-sdk-android)
 
-# C1 Camera Android SDK
+## Description
+
+This is description.
+
+## Usage
+
+### Gradle Dependency 
+
+- Project level `build.gradle`
+
+```gradle
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+- App level `build.gradle`
+
+```gradle
+dependencies {
+    implementation 'com.github.iKECINCode:c1-camera-sdk-android:x.x.x'
+}
+```
 
 ## 配网
 
@@ -16,5 +42,3 @@
 #### WiFi有密码
 
 `SSID=ssid,PWD=password,TYPE=1`
-
-
