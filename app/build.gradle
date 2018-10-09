@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.ikecin.demo"
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0.0"
         ndk {
@@ -56,4 +56,10 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation project(':library')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.yanzhenjie:permission:2.0.0-rc3'
+    implementation 'com.github.zhaokaiqiang.klog:library:1.6.0'
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.lzy.net:okgo:3.0.4'
 }

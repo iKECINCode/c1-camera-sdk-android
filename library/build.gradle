@@ -14,7 +14,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 27
         versionCode customVersionCode
         versionName customVersionName
         consumerProguardFiles 'consumer-proguard-rules.pro'

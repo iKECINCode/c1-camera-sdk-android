@@ -1,129 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/button_connect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="66dp"
-        android:text="连接"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_sotpRecvVideo"/>
-
-    <Button
-        android:id="@+id/button_disconnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="74dp"
-        android:text="断开连接"
-        app:layout_constraintLeft_toLeftOf="@+id/button_connect"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/button_reconnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="8dp"
-        android:text="重新连接"
-        app:layout_constraintLeft_toLeftOf="@+id/button_sotpRecvVideo"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/button_startRecvVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="209dp"
-        android:layout_marginStart="209dp"
-        android:layout_marginTop="8dp"
-        android:text="开启视频"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/button_sotpRecvVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="停止视频"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/button_startRecvAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="201dp"
-        android:layout_marginStart="201dp"
-        android:layout_marginTop="74dp"
-        android:text="开启音频"
-        app:layout_constraintLeft_toLeftOf="@+id/button_connect"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/button_stopRecvAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="135dp"
-        android:text="停止音频"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.zhaotao.camera_test.MainActivity">
     <TextureView
         android:id="@+id/textureView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="194dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+       />
+    <EditText
+        android:id="@+id/et_uid"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <GridView
+        android:layout_marginTop="10dp"
+        android:id="@+id/gridView"
+        android:verticalSpacing="5dp"
+        android:numColumns="3"
+        android:horizontalSpacing="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/button_stopSendAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="201dp"
-        android:layout_marginTop="127dp"
-        android:text="停止发送音频"
-        app:layout_constraintLeft_toLeftOf="@+id/button_stopRecvAudio"
-        app:layout_constraintTop_toTopOf="@+id/button_reconnect"/>
-
-    <Button
-        android:id="@+id/button_startSendAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="127dp"
-        android:text="发送音频"
-        app:layout_constraintLeft_toLeftOf="@+id/button_stopRecvAudio"
-        app:layout_constraintTop_toTopOf="@+id/button_reconnect"/>
-
-    <Button
-        android:id="@+id/button_takeJpeg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="8dp"
-        android:text="截图"
-        app:layout_constraintBottom_toTopOf="@+id/button_startRecvAudio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    </GridView>
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ConfigureNetActivity">
+    <Button
+        android:id="@+id/tv_selectWifi"
+        android:layout_width="match_parent"
+        android:text="选择WIFI"
+        android:gravity="center"
+        android:layout_height="40dp" />
+    <EditText
+        android:id="@+id/et_pwd"
+        android:layout_width="match_parent"
+        android:hint="输入WIFI密码"
+        android:layout_height="40dp" />
+    <Button
+        android:id="@+id/btn_createQRcode"
+        android:layout_width="match_parent"
+        android:text="生成二维码"
+        android:layout_height="40dp" />
+    <Button
+        android:id="@+id/btn_queryUID"
+        android:layout_width="match_parent"
+        android:text="查询UID"
+        android:layout_height="40dp" />
+    <Button
+        android:id="@+id/btn_ap"
+        android:layout_width="match_parent"
+        android:text="使用AP连接"
+        android:layout_height="40dp" />
+    <ImageView
+        android:id="@+id/ivQRcode"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
