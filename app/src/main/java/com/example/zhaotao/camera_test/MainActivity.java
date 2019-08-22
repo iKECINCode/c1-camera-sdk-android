@@ -386,10 +386,9 @@ public class MainActivity extends AppCompatActivity {
                         mCamera.queryDeviceInfo(new Camera.deviceInfoCallback() {
                             @Override
                             //sdcardTotal 设备SD卡总容量MB，sdcardFree设备SD卡剩余容量
-                            public void deviceInfo(int sdcardTotal, int sdcardFree, byte v1, byte v2, byte v3, byte v4, String model, String vendor) {
+                            public void deviceInfo(int sdcardTotal, int sdcardFree, byte v1, byte v2, byte v3, byte v4, String model, String vendor, String s2) {
                                 StringBuilder builder = new StringBuilder();
                                 String version = builder.append(v2).append(".").append(v3).append(".").append(v4).toString();//固件版本
-
                             }
                         });
                         break;
@@ -900,7 +899,7 @@ public class MainActivity extends AppCompatActivity {
         mCamera = new Camera(uid);
 
         if (mCamera != null) {
-            mCamera.connect("admin", "888888", new Camera.onOffLineCallback() {
+            mCamera.connect("admin", "888888",0, new Camera.onOffLineCallback() {
                 @Override
                 public void Online(Camera m, final int isSuccess) {
                     Log.d(MainActivity.TAG, "camer ison: " + isSuccess);
