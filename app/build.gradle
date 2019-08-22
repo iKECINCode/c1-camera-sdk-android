@@ -71,4 +71,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation project(':library')
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.yanzhenjie:permission:2.0.0-rc3'
+    implementation 'com.github.zhaokaiqiang.klog:library:1.6.0'
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.lzy.net:okgo:3.0.4'
 }
