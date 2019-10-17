@@ -42,3 +42,7 @@ dependencies {
 #### WiFi有密码
 
 `SSID=ssid,PWD=password,TYPE=1`
+
+## API文档
+
+https://github.com/TopCode280/MonitorGitBook
