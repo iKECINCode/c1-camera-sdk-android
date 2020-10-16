@@ -38,10 +38,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -386,9 +389,10 @@ public class MainActivity extends AppCompatActivity {
                         mCamera.queryDeviceInfo(new Camera.deviceInfoCallback() {
                             @Override
                             //sdcardTotal 设备SD卡总容量MB，sdcardFree设备SD卡剩余容量
-                            public void deviceInfo(int sdcardTotal, int sdcardFree, byte v1, byte v2, byte v3, byte v4, String model, String vendor, String s2) {
+                            public void deviceInfo(int sdcardTotal, int sdcardFree, int v1, int v2, int v3, int v4, String model, String vendor, String s2) {
                                 StringBuilder builder = new StringBuilder();
                                 String version = builder.append(v2).append(".").append(v3).append(".").append(v4).toString();//固件版本
+                                Log.d(TAG, "SD卡总容量:" + sdcardTotal + " 剩余容量:" + sdcardFree + " " + version);
                             }
                         });
                         break;
@@ -502,16 +506,18 @@ public class MainActivity extends AppCompatActivity {
                         mCamera.getFlipping(new Camera.successCallback() {
                             @Override
                             public void success(boolean b) {
+                                int flip = !b ? 1 : 0;
 
+                                //0不翻转，1翻转
+                                mCamera.setFlipping(flip, new Camera.successCallback() {
+                                    @Override
+                                    public void success(boolean b) {
+
+                                    }
+                                });
                             }
                         });
-                        //0不翻转，1翻转
-                        mCamera.setFlipping(1, new Camera.successCallback() {
-                            @Override
-                            public void success(boolean b) {
 
-                            }
-                        });
                         break;
                     case 14://录像设置
                         //查询当前sd录像的模式
@@ -522,14 +528,14 @@ public class MainActivity extends AppCompatActivity {
                      mCamera.getVideoRecordType(new Camera.successCallbackI() {
                          @Override
                          public void success(int i) {
-
+                            Log.d(TAG, "sd录像的模式:" + i);
                          }
                      });
                      //设置SD卡录像模式
                      mCamera.setVideoRecordType(1, new Camera.successCallback() {
                          @Override
                          public void success(boolean b) {
-
+                            Log.d(TAG, "SD卡录像模式设置:" +(b ? "true" : "false"));
                          }
                      });
                         break;
@@ -832,21 +838,52 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case 28:
-                        //参数二是播放的初始偏移量，毫秒单位
-                        mCamera.playBackVideoStart("文件名", 0, new Camera.playBackVideoCallback() {
-                            @Override//i=0回放正常，bytes 数据，total 视频的I帧总数，current当前第几帧，current/total算出播放进度
-                            public void playBackVideo(int i, byte[] bytes, long total, long current, boolean b) {
-                                videoDecodec.videoDecodec(bytes,0);
-                            }
-                        }, new Camera.recvAudioCallback() {
-                            @Override
-                            public void recvAudio(byte[] bytes, long l) {
-                                if (mAudioTrack != null)
-                                    mAudioTrack.write(bytes, 0, bytes.length);
+                        Calendar ca = Calendar.getInstance();
+                        ca.set(Calendar.HOUR_OF_DAY, 0);
+                        ca.set(Calendar.MINUTE, 0);
+                        ca.set(Calendar.SECOND, 0);
+                        long timer = ca.getTimeInMillis() / 1000;
+                        mCamera.getVideoFiletime(timer, (i, arrayList) -> {
+                            runOnUiThread(() -> {
+                                if (i == 1) {
+                                    Toast.makeText(MainActivity.this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+                                } else if (i == 0) {
+                                    if (arrayList != null) {
+                                        ArrayList<String> fileList = new ArrayList<>();
+                                        for (int j = 0; j < arrayList.size(); j++) {
+                                            Camera.fileTimeInfo fileTimeInfo = arrayList.get(j);
+                                            Date dateStart = new Date(fileTimeInfo.videofiletime * 1000);
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
+                                            String timeStart = format.format(dateStart);
+                                            String fileName = timeStart + ".mp4";
+                                            fileList.add(fileName);
+                                            Log.d(TAG,   " getVideoFiletime:" + fileName);
+                                        }
 
-                            }
+                                        //参数二是播放的初始偏移量，毫秒单位
+                                        mCamera.playBackVideoStart(fileList.get(0), 0, new Camera.playBackVideoCallback() {
+                                            @Override//i=0回放正常，bytes 数据，total 视频的I帧总数，current当前第几帧，current/total算出播放进度
+                                            public void playBackVideo(int i, byte[] bytes, long total, long current, boolean b) {
+                                                videoDecodec.videoDecodec(bytes,0);
+                                            }
+                                        }, new Camera.recvAudioCallback() {
+                                            @Override
+                                            public void recvAudio(byte[] bytes, long l) {
+                                                if (mAudioTrack != null)
+                                                    mAudioTrack.write(bytes, 0, bytes.length);
+
+                                            }
+
+                                        });
+                                    }
+
+
+                                }
+                            });
 
                         });
+
+
                         break;
                     case 29:
                         break;
@@ -892,10 +929,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void connectCamera() {
         String uid = etUid.getText().toString().trim();
-        if (uid == null || uid.length() < 20) {
+        if (uid == null) {
             Toast.makeText(this, "uid输入错误", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (!Pattern.compile("[A-Z0-9]{20}").matcher(uid).matches() && !Pattern.compile("KHJ-[0-9]{6}-[A-Z]{5}").matcher(uid).matches() && !Pattern.compile("KHJ[A-Z]-[0-9]{6}-[A-Z]{5}").matcher(uid).matches()) {
+            Toast.makeText(this, "uid输入错误", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         mCamera = new Camera(uid);
 
         if (mCamera != null) {
